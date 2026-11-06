@@ -1,0 +1,21 @@
+---
+- name: Mi primer Playbook SOC
+  hosts: local
+  gather_facts: true
+
+  tasks:
+    - name: Mostrar nombre del equipo
+      ansible.builtin.debug:
+        msg: "Equipo: {{ ansible_hostname }}"
+
+    - name: Mostrar sistema operativo
+      ansible.builtin.debug:
+        msg: "Sistema: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Mostrar fecha y hora
+      ansible.builtin.command: date
+      register: fecha
+
+    - name: Mostrar resultado
+      ansible.builtin.debug:
+        msg: "{{ fecha.stdout }}"
