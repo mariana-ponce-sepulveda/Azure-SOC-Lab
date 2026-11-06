@@ -1,0 +1,14 @@
+---
+- name: Recopilar registros del sistema para el SOC
+  hosts: local
+  gather_facts: false
+
+  tasks:
+    - name: Consultar los ultimos 10 registros
+      ansible.builtin.command: journalctl -n 10 --no-pager
+      register: registros
+      changed_when: false
+
+    - name: Mostrar registros recopilados
+      ansible.builtin.debug:
+        var: registros.stdout_lines
