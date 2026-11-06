@@ -1,0 +1,14 @@
+// 1. Linux: intentos fallidos de autenticación SSH
+Syslog
+| where TimeGenerated > ago(24h)
+| where Facility == "auth" or ProcessName has "sshd"
+| where SyslogMessage has_any ("Failed password", "authentication failure")
+| project TimeGenerated, Computer, ProcessName, SyslogMessage
+| order by TimeGenerated desc
+
+// 2. Windows: inicios de sesión fallidos
+SecurityEvent
+| where TimeGenerated > ago(24h)
+| where EventID == 4625
+| project TimeGenerated, Computer, Account, IpAddress, Activity
+| order by TimeGenerated desc
